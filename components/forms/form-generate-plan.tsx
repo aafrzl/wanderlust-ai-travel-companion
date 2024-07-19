@@ -3,16 +3,12 @@
 import { budgetList } from "@/constants";
 import { TravelPlanSchema, TravelPlanType } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import NomatimAutocomplete from "../nomatim-autocomplete";
 import { Button } from "../ui/button";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "../ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { DateRangePicker } from "../ui/date-range-picker";
 import {
   Form,
@@ -24,6 +20,9 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+
+//TODO: Implement with Google Generative AI SDK (use server action)
+//TODO: Store response AI to database (use server action)
 
 export default function FormGeneratePlan() {
   const [isCustomBudget, setIsCustomBudget] = useState(false);
@@ -37,7 +36,9 @@ export default function FormGeneratePlan() {
     },
   });
 
-  const onSubmit = (values: TravelPlanType) => {
+  const onSubmit = async (values: TravelPlanType) => {
+    // simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     console.log(values);
   };
 
@@ -45,7 +46,7 @@ export default function FormGeneratePlan() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4"
+        className="space-y-6"
       >
         <NomatimAutocomplete
           form={form}
@@ -136,7 +137,20 @@ export default function FormGeneratePlan() {
             </FormItem>
           )}
         />
-        <Button type="submit">Generate Plan</Button>
+        <Button
+          type="submit"
+          className="font-medium"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? (
+            <Loader className="w-5 h-5 mr-2 animate-spin" />
+          ) : (
+            <Sparkles className="w-5 h-5 mr-2" />
+          )}
+          <span>
+            {form.formState.isSubmitting ? "Generating Plan" : "Generate Plan"}
+          </span>
+        </Button>
       </form>
     </Form>
   );
