@@ -90,9 +90,10 @@ export default function NomatimAutocomplete({
               <Input
                 type="text"
                 value={query}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setQuery(e.target.value)
-                }
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  setQuery(e.target.value);
+                  setSuggestions([]); // Clear suggestions
+                }}
                 placeholder="Search Location..."
                 className="max-w-[300px] pl-8"
               />

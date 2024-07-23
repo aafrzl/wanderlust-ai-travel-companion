@@ -2,6 +2,7 @@ import RootProvider from "@/components/root-providers";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 
 const font = Montserrat({ subsets: ["latin"] });
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body className={cn("antialiased", font.className)}>
         <RootProvider>
           {children}
+          <Toaster />
         </RootProvider>
       </body>
     </html>

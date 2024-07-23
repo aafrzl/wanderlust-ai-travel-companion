@@ -1,11 +1,13 @@
 "use client";
 
 import { budgetList } from "@/constants";
+import { generatePlan } from "@/helpers/actions/generate-plan";
 import { TravelPlanSchema, TravelPlanType } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import NomatimAutocomplete from "../nomatim-autocomplete";
 import { Button } from "../ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
@@ -21,9 +23,6 @@ import {
 import { Input } from "../ui/input";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
-//TODO: Implement with Google Generative AI SDK (use server action)
-//TODO: Store response AI to database (use server action)
-
 export default function FormGeneratePlan() {
   const [isCustomBudget, setIsCustomBudget] = useState(false);
 
@@ -37,9 +36,17 @@ export default function FormGeneratePlan() {
   });
 
   const onSubmit = async (values: TravelPlanType) => {
-    // simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log(values);
+    try {
+      await generatePlan(values);
+      toast.success("Plan generated successfully");
+      form.reset({
+        location: "",
+        people: 1,
+        budget: "",
+      });
+    } catch (error: any) {
+      toast.error("Failed to generate plan", error);
+    }
   };
 
   return (

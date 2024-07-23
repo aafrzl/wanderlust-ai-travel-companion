@@ -65,7 +65,7 @@ model TravelPlan {
   location  String
   days      Int
   people    Int
-  budget    Int
+  budget    String
   hotels    Hotel[]
   itinerary Itinerary[]
   userId    String
