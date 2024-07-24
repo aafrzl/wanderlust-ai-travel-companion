@@ -30,14 +30,17 @@ interface NomatimAutocompleteProps {
   form: UseFormReturn<any>;
   name: string;
   label?: string;
+  query: string 
+  setQuery: (query: string) => void;
 }
 
 export default function NomatimAutocomplete({
   form,
   name,
   label,
+  setQuery,
+  query,
 }: NomatimAutocompleteProps) {
-  const [query, setQuery] = useState<string>("");
   const debouncedQuery = useDebounce(query, 300);
   const [suggestions, setSuggestions] = useState<Place[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -83,10 +86,12 @@ export default function NomatimAutocomplete({
       name={name}
       render={({ field }) => (
         <FormItem>
-          {label && <FormLabel>{label}</FormLabel>}
+          {label && (
+            <FormLabel className="text-xl font-bold">{label}</FormLabel>
+          )}
           <FormControl>
             <div className="relative">
-              <Plane className="absolute left-2 top-2.5 h-5 w-5 shrink-0" />
+              <Plane className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 shrink-0" />
               <Input
                 type="text"
                 value={query}
@@ -95,7 +100,7 @@ export default function NomatimAutocomplete({
                   setSuggestions([]); // Clear suggestions
                 }}
                 placeholder="Search Location..."
-                className="max-w-[300px] pl-8"
+                className="max-w-[300px] pl-7"
               />
               {isLoading && (
                 <Loader2 className="absolute right-2 top-2.5 h-4 w-4 animate-spin" />

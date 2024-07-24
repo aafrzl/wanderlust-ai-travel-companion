@@ -6,9 +6,11 @@ import { TravelPlanSchema, TravelPlanType } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { DateRange } from "react-day-picker";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import NomatimAutocomplete from "../nomatim-autocomplete";
+import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { DateRangePicker } from "../ui/date-range-picker";
@@ -25,6 +27,8 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 export default function FormGeneratePlan() {
   const [isCustomBudget, setIsCustomBudget] = useState(false);
+  const [locationQuery, setLocationQuery] = useState("");
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
 
   const form = useForm<TravelPlanType>({
     resolver: zodResolver(TravelPlanSchema),
@@ -32,6 +36,7 @@ export default function FormGeneratePlan() {
       location: "",
       people: 1,
       budget: "",
+      days: undefined,
     },
   });
 
@@ -43,7 +48,10 @@ export default function FormGeneratePlan() {
         location: "",
         people: 1,
         budget: "",
+        days: undefined,
       });
+      setLocationQuery("");
+      setDateRange(undefined);
     } catch (error: any) {
       toast.error("Failed to generate plan", error);
     }
@@ -59,18 +67,24 @@ export default function FormGeneratePlan() {
           form={form}
           name="location"
           label="Where are you traveling to?"
+          setQuery={setLocationQuery}
+          query={locationQuery}
         />
         <DateRangePicker
           form={form}
           name="days"
           label="How long are you travel for?"
+          dateRange={dateRange}
+          setDateRange={setDateRange}
         />
         <FormField
           control={form.control}
           name="people"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>How many people are traveling?</FormLabel>
+              <FormLabel className="text-xl font-bold">
+                How many people are traveling?
+              </FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -87,7 +101,9 @@ export default function FormGeneratePlan() {
           name="budget"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>Select your budget</FormLabel>
+              <FormLabel className="text-xl font-bold">
+                How much are you planning to spend?
+              </FormLabel>
               <FormControl>
                 <div className="space-y-5">
                   <RadioGroup
@@ -129,14 +145,22 @@ export default function FormGeneratePlan() {
                     ))}
                   </RadioGroup>
                   {isCustomBudget && (
-                    <Input
-                      placeholder="Enter custom budget (optional)"
-                      value={field.value || ""}
-                      onChange={(e) => {
-                        field.onChange(e.target.value || undefined);
-                      }}
-                      className="mt-4 max-w-[300px]"
-                    />
+                    <div className="relative">
+                      <Badge
+                        className="absolute top-1/2 left-2 -translate-y-1/2"
+                        variant={"outline"}
+                      >
+                        IDR
+                      </Badge>
+                      <Input
+                        placeholder="Enter custom budget (optional)"
+                        value={field.value || ""}
+                        onChange={(e) => {
+                          field.onChange(e.target.value || undefined);
+                        }}
+                        className="mt-4 max-w-[300px] pl-14"
+                      />
+                    </div>
                   )}
                 </div>
               </FormControl>

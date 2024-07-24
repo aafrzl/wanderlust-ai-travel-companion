@@ -23,18 +23,26 @@ interface DateRangePickerProps {
   form: UseFormReturn<any>;
   name: string;
   label?: string;
+  dateRange: DateRange | undefined;
+  setDateRange: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
 }
 
-export function DateRangePicker({ form, name, label }: DateRangePickerProps) {
-  const [dateRange, setDateRange] = React.useState<DateRange | undefined>();
-
+export function DateRangePicker({
+  form,
+  name,
+  label,
+  dateRange,
+  setDateRange,
+}: DateRangePickerProps) {
   return (
     <FormField
       control={form.control}
       name={name}
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          {label && <FormLabel>{label}</FormLabel>}
+          {label && (
+            <FormLabel className="text-xl font-bold">{label}</FormLabel>
+          )}
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
