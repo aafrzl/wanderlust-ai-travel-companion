@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 import FormGeneratePlan from "@/components/forms/form-generate-plan";
 import { redirect } from "next/navigation";
 
+//TODO: Fetch data travel plan from database
+
 export default async function DashboardPage() {
   const session = await auth();
 
@@ -21,6 +23,11 @@ export default async function DashboardPage() {
       </div>
       <div className="p-6 border rounded-md shadow-md">
         <FormGeneratePlan />
+      </div>
+
+      {/* TODO: Make section for card recenly travel plan */}
+      <div className="">
+        <h2 className="text-xl font-semibold">Recently Travel Plan</h2>
       </div>
     </section>
   );
