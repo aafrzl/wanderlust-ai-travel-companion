@@ -82,14 +82,14 @@ export default function FormGeneratePlan() {
           name="people"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-xl font-bold">
+              <FormLabel className="text-base sm:text-xl font-bold">
                 How many people are traveling?
               </FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   type="number"
-                  className="max-w-[300px]"
+                  className="w-full"
                 />
               </FormControl>
               <FormMessage />
@@ -101,7 +101,7 @@ export default function FormGeneratePlan() {
           name="budget"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel className="text-xl font-bold">
+              <FormLabel className="text-base sm:text-xl font-bold">
                 How much are you planning to spend?
               </FormLabel>
               <FormControl>
@@ -117,7 +117,7 @@ export default function FormGeneratePlan() {
                       }
                     }}
                     value={isCustomBudget ? "custom" : field.value}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+                    className="grid grid-cols-2 gap-4"
                   >
                     {budgetList.map((budget) => (
                       <FormItem key={budget.id}>
@@ -158,7 +158,7 @@ export default function FormGeneratePlan() {
                         onChange={(e) => {
                           field.onChange(e.target.value || undefined);
                         }}
-                        className="mt-4 max-w-[300px] pl-14"
+                        className="mt-4 w-full pl-14"
                       />
                     </div>
                   )}
@@ -170,7 +170,7 @@ export default function FormGeneratePlan() {
         />
         <Button
           type="submit"
-          className="font-medium"
+          className="font-medium w-full"
           disabled={form.formState.isSubmitting}
         >
           {form.formState.isSubmitting ? (

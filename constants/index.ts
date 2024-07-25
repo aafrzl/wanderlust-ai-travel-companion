@@ -4,10 +4,6 @@ export const links = [
     href: "/dashboard",
   },
   {
-    title: "Your Trips",
-    href: "/dashboard/trips",
-  },
-  {
     title: "Settings",
     href: "/dashboard/settings",
   },

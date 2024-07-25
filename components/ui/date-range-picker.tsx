@@ -41,7 +41,7 @@ export function DateRangePicker({
       render={({ field }) => (
         <FormItem className="flex flex-col">
           {label && (
-            <FormLabel className="text-xl font-bold">{label}</FormLabel>
+            <FormLabel className="text-base sm:text-xl font-bold">{label}</FormLabel>
           )}
           <Popover>
             <PopoverTrigger asChild>
@@ -50,7 +50,7 @@ export function DateRangePicker({
                   id="date"
                   variant={"outline"}
                   className={cn(
-                    "w-[300px] justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal",
                     !dateRange && "text-muted-foreground"
                   )}
                 >

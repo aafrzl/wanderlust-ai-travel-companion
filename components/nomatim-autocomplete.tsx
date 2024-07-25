@@ -30,7 +30,7 @@ interface NomatimAutocompleteProps {
   form: UseFormReturn<any>;
   name: string;
   label?: string;
-  query: string 
+  query: string;
   setQuery: (query: string) => void;
 }
 
@@ -87,7 +87,7 @@ export default function NomatimAutocomplete({
       render={({ field }) => (
         <FormItem>
           {label && (
-            <FormLabel className="text-xl font-bold">{label}</FormLabel>
+            <FormLabel className="text-base sm:text-xl font-bold">{label}</FormLabel>
           )}
           <FormControl>
             <div className="relative">
@@ -100,13 +100,13 @@ export default function NomatimAutocomplete({
                   setSuggestions([]); // Clear suggestions
                 }}
                 placeholder="Search Location..."
-                className="max-w-[300px] pl-7"
+                className="w-full pl-7"
               />
               {isLoading && (
                 <Loader2 className="absolute right-2 top-2.5 h-4 w-4 animate-spin" />
               )}
               {open && (
-                <Command className="absolute top-full left-0 right-0 z-10 min-h-[240px] max-w-[300px] mt-2">
+                <Command className="absolute top-full left-0 right-0 z-10 min-h-[240px] w-full mt-2">
                   <CommandList>
                     {suggestions.length === 0 && !isLoading && (
                       <CommandEmpty>No result found.</CommandEmpty>
