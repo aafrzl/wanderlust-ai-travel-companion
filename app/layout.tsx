@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("antialiased", font.className)}>
+      <body className={cn("antialiased bg-muted", font.className)}>
         <RootProvider>
           {children}
           <Toaster />

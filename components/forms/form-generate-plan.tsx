@@ -25,7 +25,11 @@ import {
 import { Input } from "../ui/input";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
-export default function FormGeneratePlan() {
+interface Props {
+  setIsOpen: (isOpen: boolean) => void;
+}
+
+export default function FormGeneratePlan({ setIsOpen }: Props) {
   const [isCustomBudget, setIsCustomBudget] = useState(false);
   const [locationQuery, setLocationQuery] = useState("");
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
@@ -52,6 +56,7 @@ export default function FormGeneratePlan() {
       });
       setLocationQuery("");
       setDateRange(undefined);
+      setIsOpen(false);
     } catch (error: any) {
       toast.error("Failed to generate plan", error);
     }

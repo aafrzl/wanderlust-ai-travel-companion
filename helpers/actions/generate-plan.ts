@@ -9,6 +9,7 @@ import {
   HarmCategory,
 } from "@google/generative-ai";
 import { Prisma, TravelPlan } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
@@ -155,6 +156,8 @@ export async function generatePlan(data: TravelPlanType) {
         },
       },
     });
+
+    revalidatePath("/dashboard");
 
     return createdPlan;
   } catch (error) {

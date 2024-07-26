@@ -1,22 +1,30 @@
+"use client";
+
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { PlusCircle } from "lucide-react";
 import FormGeneratePlan from "../forms/form-generate-plan";
 import { Button } from "../ui/button";
+import { useState } from "react";
 
 export default function CreateTravelPlan() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(isOpen) => setIsOpen(isOpen)}
+    >
       <DialogTrigger asChild>
         <Button
           variant={"outline"}
-          className="w-[450px] h-full border border-dashed flex items-center justify-center"
+          className="border-dashed h-full max-w-[450px] flex items-center gap-x-2 hover:border-blue-500 hover:bg-background"
         >
           <PlusCircle className="w-6 h-6 mr-2" />
           <span className="text-lg font-semibold">Create Travel Plan</span>
@@ -29,7 +37,7 @@ export default function CreateTravelPlan() {
             Let&apos;s get started by generating your travel plan. 🚀
           </DialogDescription>
         </DialogHeader>
-        <FormGeneratePlan />
+        <FormGeneratePlan setIsOpen={setIsOpen} />
       </DialogContent>
     </Dialog>
   );
