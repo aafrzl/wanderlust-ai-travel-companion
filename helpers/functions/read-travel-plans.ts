@@ -1,5 +1,4 @@
 "use server";
-import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { getLocationImagesPixabay } from "@/lib/unsplash/generate-image-url";
 import { TravelPlan } from "@prisma/client";
@@ -9,18 +8,15 @@ interface TravelPlanWithImage extends TravelPlan {
   photographer: string | null;
 }
 
-export async function readTravelPlans(): Promise<TravelPlanWithImage[] | null> {
-  //Get session
-  const session = await auth();
-
-  if (!session || session.user?.id === undefined) {
+export async function readTravelPlans(user_id: string): Promise<TravelPlanWithImage[] | null> {
+  if (user_id === undefined) {
     return null;
   }
 
   try {
     const travelPlans = await prisma.travelPlan.findMany({
       where: {
-        userId: session.user.id,
+        userId: user_id,
       },
     });
 

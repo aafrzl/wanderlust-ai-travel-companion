@@ -24,7 +24,7 @@ export default function CreateTravelPlan() {
       <DialogTrigger asChild>
         <Button
           variant={"outline"}
-          className="border-dashed h-full max-w-[450px] flex items-center gap-x-2 hover:border-blue-500 hover:bg-background"
+          className="border-dashed h-full max-w-[450px] flex items-center gap-x-2 hover:border-primary hover:bg-background transition-all duration-300 ease-in-out"
         >
           <PlusCircle className="w-6 h-6 mr-2" />
           <span className="text-lg font-semibold">Create Travel Plan</span>

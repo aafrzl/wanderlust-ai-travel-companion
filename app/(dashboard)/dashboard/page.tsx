@@ -12,8 +12,9 @@ export default async function DashboardPage() {
   }
 
   const name = session.user?.name;
+  const user_id = session.user?.id;
 
-  const travelPlans = await readTravelPlans();
+  const travelPlans = await readTravelPlans(user_id!);
 
   return (
     <section className="container mx-auto flex flex-col gap-8 py-[60px] lg:py-14">
@@ -21,13 +22,16 @@ export default async function DashboardPage() {
         <h1 className="text-2xl font-semibold tracking-tighter">
           Welcome, {name}👋🏻
         </h1>
-        <p>Let&apos;s get started by generating your travel plan. 🚀</p>
+        {travelPlans?.length! > 0 ? (
+          <p className="text-base sm:text-lg font-medium">
+            Here are your travel plans generate by AI. 🚀
+          </p>
+        ) : (
+          <p className="text-base sm:text-lg font-medium">
+            Let&apos;s get started by generating your travel plan. 🚀
+          </p>
+        )}
       </div>
-      {travelPlans?.length === 0 && (
-        <p className="text-lg font-semibold">
-          You don&apos;t have any travel plans yet.
-        </p>
-      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <CreateTravelPlan />
         {travelPlans?.map((plan) => (
@@ -39,6 +43,7 @@ export default async function DashboardPage() {
             people={plan.people}
             budget={plan.budget}
             photographer={plan.photographer}
+            travelPlanId={plan.id}
           />
         ))}
       </div>

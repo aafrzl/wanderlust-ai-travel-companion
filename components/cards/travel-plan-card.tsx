@@ -3,6 +3,7 @@ import { Calendar, UsersIcon, Wallet } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { formatCurrency } from "@/lib/utils";
+import Link from "next/link";
 
 interface Props {
   location: string;
@@ -11,6 +12,7 @@ interface Props {
   days: number;
   budget: string;
   people: number;
+  travelPlanId: string;
 }
 
 export default function TravelPlanCard({
@@ -20,9 +22,10 @@ export default function TravelPlanCard({
   days,
   budget,
   people,
+  travelPlanId,
 }: Props) {
   return (
-    <Card className="h-full max-w-[450px] cursor-pointer">
+    <Card className="h-full max-w-[450px] cursor-pointer hover:border-primary transition-all duration-300 ease-in-out">
       <CardHeader>
         {imageUrl && (
           <div className="relative w-full h-48 mb-4">
@@ -45,28 +48,32 @@ export default function TravelPlanCard({
             </div>
           </div>
         )}
-        <CardTitle className="text-xl">{location}</CardTitle>
+        <Link href={`/dashboard/${travelPlanId}`}>
+          <CardTitle className="text-xl">{location}</CardTitle>
+        </Link>
       </CardHeader>
-      <CardContent className="flex flex-wrap items-center gap-2">
-        <Badge className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 shrink-0" />
-          <span>{days} Days</span>
-        </Badge>
-        <Badge className="flex items-center gap-2">
-          <Wallet className="w-4 h-4 shrink-0" />
-          {budget === "high" || budget === "medium" || budget === "low" ? (
-            <span>
-              {budget.charAt(0).toUpperCase() + budget.slice(1)} Budget
-            </span>
-          ) : (
-            <span>{formatCurrency(budget)}</span>
-          )}
-        </Badge>
-        <Badge className="flex items-center gap-2">
-          <UsersIcon className="w-4 h-4 shrink-0" />
-          <span>{people} People</span>
-        </Badge>
-      </CardContent>
+      <Link href={`/dashboard/${travelPlanId}`}>
+        <CardContent className="flex flex-wrap items-center gap-2">
+          <Badge className="flex items-center gap-2">
+            <Calendar className="w-4 h-4 shrink-0" />
+            <span>{days} Days</span>
+          </Badge>
+          <Badge className="flex items-center gap-2">
+            <Wallet className="w-4 h-4 shrink-0" />
+            {budget === "high" || budget === "medium" || budget === "low" ? (
+              <span>
+                {budget.charAt(0).toUpperCase() + budget.slice(1)} Budget
+              </span>
+            ) : (
+              <span>{formatCurrency(budget)}</span>
+            )}
+          </Badge>
+          <Badge className="flex items-center gap-2">
+            <UsersIcon className="w-4 h-4 shrink-0" />
+            <span>{people} People</span>
+          </Badge>
+        </CardContent>
+      </Link>
     </Card>
   );
 }
