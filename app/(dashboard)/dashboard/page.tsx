@@ -1,8 +1,10 @@
 import { auth } from "@/auth";
-import TravelPlanCard from "@/components/cards/travel-plan-card";
 import CreateTravelPlan from "@/components/modals/create-travel-plan";
 import { readTravelPlans } from "@/helpers/functions/read-travel-plans";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import TravelPlans from "../_components/travel-plans";
+import { TravelPlanCardSkeleton } from "../_components/travel-skeleton-card";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -32,21 +34,20 @@ export default async function DashboardPage() {
           </p>
         )}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <CreateTravelPlan />
-        {travelPlans?.map((plan) => (
-          <TravelPlanCard
-            key={plan.id}
-            imageUrl={plan.imageUrl}
-            location={plan.location}
-            days={plan.days}
-            people={plan.people}
-            budget={plan.budget}
-            photographer={plan.photographer}
-            travelPlanId={plan.id}
-          />
-        ))}
-      </div>
+      <Suspense fallback={<TravelPlansSkeletonLoader />}>
+        <TravelPlans travelPlans={travelPlans || []} />
+      </Suspense>
     </section>
+  );
+}
+
+function TravelPlansSkeletonLoader() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <CreateTravelPlan />
+      {[...Array(5)].map((_, index) => (
+        <TravelPlanCardSkeleton key={index} />
+      ))}
+    </div>
   );
 }

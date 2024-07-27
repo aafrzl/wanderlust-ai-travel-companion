@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatCurrency, placeholderBlurhash } from "@/lib/utils";
 import { Calendar, UsersIcon, Wallet } from "lucide-react";
-import Image from "next/image";
-import { Badge } from "../ui/badge";
-import { formatCurrency } from "@/lib/utils";
 import Link from "next/link";
+import BlurImage from "../blur-image";
+import { Badge } from "../ui/badge";
 
 interface Props {
   location: string;
@@ -29,12 +29,13 @@ export default function TravelPlanCard({
       <CardHeader>
         {imageUrl && (
           <div className="relative w-full h-48 mb-4">
-            <Image
-              src={imageUrl}
+            <BlurImage
               alt={location}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-md"
+              src={imageUrl || "placeholder-image.webp"}
+              fill
+              className="rounded-md object-cover"
+              placeholder="blur"
+              blurDataURL={placeholderBlurhash}
             />
             <div className="absolute bottom-0 right-0 bg-black bg-opacity-75 text-xs p-2 rounded-tl-md rounded-br-md text-white">
               {photographer ? `Photo by ${photographer} on` : ""}
