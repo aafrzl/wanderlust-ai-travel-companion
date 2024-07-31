@@ -18,6 +18,8 @@ export async function getLocationImagesPixabay(
         q: location,
         per_image: limit,
         image_type: "photo",
+        min_width: "1920",
+        min_height: "1080",
       },
     });
 

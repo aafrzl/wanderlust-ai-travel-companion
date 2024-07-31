@@ -87,7 +87,7 @@ export default function NomatimAutocomplete({
       render={({ field }) => (
         <FormItem>
           {label && (
-            <FormLabel className="text-base sm:text-xl font-bold">{label}</FormLabel>
+            <FormLabel>{label}</FormLabel>
           )}
           <FormControl>
             <div className="relative">

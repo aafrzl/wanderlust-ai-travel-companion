@@ -41,7 +41,7 @@ export function DateRangePicker({
       render={({ field }) => (
         <FormItem className="flex flex-col">
           {label && (
-            <FormLabel className="text-base sm:text-xl font-bold">{label}</FormLabel>
+            <FormLabel>{label}</FormLabel>
           )}
           <Popover>
             <PopoverTrigger asChild>

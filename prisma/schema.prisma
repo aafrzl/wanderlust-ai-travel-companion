@@ -61,15 +61,16 @@ model VerificationToken {
 }
 
 model TravelPlan {
-  id        String      @id @default(cuid())
-  location  String
-  days      Int
-  people    Int
-  budget    String
-  hotels    Hotel[]
-  itinerary Itinerary[]
-  userId    String
-  user      User        @relation(fields: [userId], references: [id])
+  id          String      @id @default(cuid())
+  location    String
+  description String
+  days        Int
+  people      String
+  budget      String
+  hotels      Hotel[]
+  itinerary   Itinerary[]
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -79,14 +80,12 @@ model Hotel {
   id           String     @id @default(cuid())
   name         String
   price        Int
-  latitude     String
-  longitude    String
   rating       Float
   description  String
   travelPlanId String
   travelPlan   TravelPlan @relation(fields: [travelPlanId], references: [id], onDelete: Cascade)
 
-  createAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
@@ -97,7 +96,7 @@ model Itinerary {
   places       Place[]
   travelPlan   TravelPlan @relation(fields: [travelPlanId], references: [id], onDelete: Cascade)
 
-  createAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
@@ -105,14 +104,12 @@ model Place {
   id              String    @id @default(cuid())
   name            String
   details         String
-  latitude        String
-  longitude       String
-  tickerPricing   String
-  travelTime      String
-  bestTimeToVisit String
+  ticket_pricing  String
+  travel_time     String
+  best_time_to_visit String
   itineraryId     String
   itinerary       Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
 
-  createAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

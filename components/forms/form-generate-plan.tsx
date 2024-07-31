@@ -1,6 +1,10 @@
 "use client";
 
-import { budgetList } from "@/constants";
+import {
+  ACTIVITY_PREFERENCES,
+  budgetList,
+  COMPANION_PREFERENCES,
+} from "@/constants";
 import { generatePlan } from "@/helpers/actions/generate-plan";
 import { TravelPlanSchema, TravelPlanType } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -38,7 +42,8 @@ export default function FormGeneratePlan({ setIsOpen }: Props) {
     resolver: zodResolver(TravelPlanSchema),
     defaultValues: {
       location: "",
-      people: 1,
+      people: "",
+      activities: [],
       budget: "",
       days: undefined,
     },
@@ -50,7 +55,8 @@ export default function FormGeneratePlan({ setIsOpen }: Props) {
       toast.success("Plan generated successfully");
       form.reset({
         location: "",
-        people: 1,
+        people: "",
+        activities: [],
         budget: "",
         days: undefined,
       });
@@ -84,18 +90,87 @@ export default function FormGeneratePlan({ setIsOpen }: Props) {
         />
         <FormField
           control={form.control}
+          name="activities"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Select the kind of activities you want to do?
+              </FormLabel>
+              <FormControl>
+                <div className="flex gap-2 flex-wrap">
+                  {ACTIVITY_PREFERENCES.map((activity) => (
+                    <label
+                      key={activity.id}
+                      className="flex-grow p-1 opacity-50 hover:opacity-100 dark:opacity-40 dark:hover:opacity-100 
+                      has-[:checked]:bg-blue-100 has-[:checked]:opacity-100 dark:has-[:checked]:opacity-100
+                      duration-200 transition-all ease-in-out
+                      rounded-md cursor-pointer select-none
+                      flex justify-center items-center
+                      bg-gray-100 has-[:checked]:shadow-sm dark:bg-transparent dark:border dark:border-foreground
+                      "
+                    >
+                      <input
+                        type="checkbox"
+                        className="hidden"
+                        checked={field.value?.includes(activity.id) ?? false}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            field.onChange([...field.value, activity.id]);
+                          } else {
+                            field.onChange(
+                              field.value.filter(
+                                (selectedActivity) =>
+                                  selectedActivity !== activity.id
+                              )
+                            );
+                          }
+                        }}
+                      />
+                      <activity.icon className="w-5 h-5 pr-1" />
+                      <span>{activity.displayName}</span>
+                    </label>
+                  ))}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="people"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-base sm:text-xl font-bold">
-                How many people are traveling?
-              </FormLabel>
+              <FormLabel>Who are you travelling with?</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  type="number"
-                  className="w-full"
-                />
+                <div className="flex gap-2 flex-wrap">
+                  {COMPANION_PREFERENCES.map((companion) => (
+                    <label
+                      key={companion.id}
+                      className="flex-1 p-1 opacity-50 hover:opacity-100 dark:opacity-40 dark:hover:opacity-100 
+                has-[:checked]:bg-blue-100 has-[:checked]:opacity-100 dark:has-[:checked]:opacity-100
+                duration-200 transition-all ease-in-out
+                rounded-md cursor-pointer select-none
+                flex justify-center items-center
+                bg-gray-100 has-[:checked]:shadow-sm dark:bg-transparent dark:border dark:border-foreground
+                "
+                    >
+                      <input
+                        type="radio"
+                        className="hidden"
+                        name="companion"
+                        checked={field.value == companion.id}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            field.onChange(companion.id);
+                          }
+                        }}
+                      />
+                      <companion.icon className="w-5 h-5 pr-1" />
+                      <span>{companion.displayName}</span>
+                    </label>
+                  ))}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -106,9 +181,7 @@ export default function FormGeneratePlan({ setIsOpen }: Props) {
           name="budget"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel className="text-base sm:text-xl font-bold">
-                How much are you planning to spend?
-              </FormLabel>
+              <FormLabel>How much are you planning to spend?</FormLabel>
               <FormControl>
                 <div className="space-y-5">
                   <RadioGroup
@@ -135,11 +208,11 @@ export default function FormGeneratePlan({ setIsOpen }: Props) {
                         </FormControl>
                         <label
                           htmlFor={budget.id}
-                          className="flex flex-col h-full rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
+                          className="flex flex-col h-fit w-full rounded-lg border-2 bg-card hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
                         >
-                          <Card className="h-full">
+                          <Card className="h-fit w-full border-none">
                             <CardHeader>
-                              <CardTitle>{budget.label}</CardTitle>
+                              <CardTitle className="text-lg">{budget.label}</CardTitle>
                               <CardDescription className="text-xs">
                                 {budget.description}
                               </CardDescription>

@@ -9,13 +9,7 @@ export const TravelPlanSchema = z.object({
     .int()
     .positive()
     .min(1, { message: "Days must be at least 1" }),
-  people: z.coerce
-    .number()
-    .int()
-    .positive()
-    .min(1, { message: "People must be at least 1" }),
-  budget: z.union([
-    z.enum(["low", "medium", "high"]),
-    z.string().optional(),
-  ]),
+  activities: z.array(z.string()),
+  people: z.string().min(1, { message: "People required" }),
+  budget: z.union([z.enum(["low", "medium", "high"]), z.string().optional()]),
 });

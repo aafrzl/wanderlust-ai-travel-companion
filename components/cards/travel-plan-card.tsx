@@ -11,7 +11,7 @@ interface Props {
   photographer: string | null;
   days: number;
   budget: string;
-  people: number;
+  people: string;
   travelPlanId: string;
 }
 
