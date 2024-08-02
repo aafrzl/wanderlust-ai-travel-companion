@@ -23,26 +23,24 @@ export default function HotelCard({ hotel }: { hotel: Hotel }) {
         blurDataURL={placeholderBlurhash}
       />
       <CardContent className="p-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xl font-semibold line-clamp-1">{hotel.name}</h3>
-          <div className="flex items-center gap-1 text-primary">
-            <ReactRating
-              style={{ maxWidth: 100 }}
-              value={hotel.rating}
-              readOnly
-              itemStyles={myStyles}
-              halfFillMode="svg"
-            />
-            <span>{hotel.rating}</span>
-          </div>
+        <h3 className="text-base sm:text-xl font-semibold">{hotel.name}</h3>
+        <div className="flex items-center gap-1 text-primary">
+          <ReactRating
+            style={{ maxWidth: 100 }}
+            value={hotel.rating}
+            readOnly
+            itemStyles={myStyles}
+            halfFillMode="svg"
+          />
+          <span>{hotel.rating}</span>
         </div>
-        <div className="flex items-center justify-between">
-          <div className="text-2xl font-bold">
+        <div className="flex items-center justify-between flex-wrap lg:flex-nowrap">
+          <div className="text-lg sm:text-xl font-bold">
             {formatCurrency(hotel.price.toString())}
           </div>
           <div className="text-sm text-muted-foreground">per night</div>
         </div>
-        <p className="text-muted-foreground">{hotel.description}</p>
+        <p className="text-muted-foreground text-sm">{hotel.description}</p>
       </CardContent>
     </Card>
   );

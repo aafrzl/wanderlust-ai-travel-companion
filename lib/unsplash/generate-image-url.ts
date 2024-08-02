@@ -18,14 +18,14 @@ export async function getLocationImagesPixabay(
         q: location,
         per_image: limit,
         image_type: "photo",
-        min_width: "1920",
-        min_height: "1080",
+        min_width: "2000",
+        min_height: "2000",
       },
     });
 
     if (response.data && response.data.hits) {
       return response.data.hits.map((photo: any) => ({
-        url: photo.webformatURL,
+        url: photo.largeImageURL,
         photographer: photo.user,
       }));
     }

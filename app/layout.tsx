@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 const font = Montserrat({ subsets: ["latin"] });
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn("antialiased bg-muted", font.className)}>
         <RootProvider>
+          <NextTopLoader crawlSpeed={200} />
           {children}
           <Toaster />
         </RootProvider>
