@@ -72,8 +72,11 @@ model TravelPlan {
   userId      String
   user        User        @relation(fields: [userId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  WifiInformation    WifiInformation[]
+  EmergencyNumbers   EmergencyNumbers[]
+  LifeQualityIndices LifeQualityIndices[]
 }
 
 model Hotel {
@@ -101,15 +104,46 @@ model Itinerary {
 }
 
 model Place {
-  id              String    @id @default(cuid())
-  name            String
-  details         String
-  ticket_pricing  String
-  travel_time     String
+  id                 String    @id @default(cuid())
+  name               String
+  details            String
+  ticket_pricing     String
+  travel_time        String
   best_time_to_visit String
-  itineraryId     String
-  itinerary       Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+  itineraryId        String
+  itinerary          Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model WifiInformation {
+  id        String @id @default(cuid())
+  broadband String
+  mobile    String
+
+  travelPlan   TravelPlan? @relation(fields: [travelPlanId], references: [id], onDelete: Cascade)
+  travelPlanId String?
+}
+
+model EmergencyNumbers {
+  id        String @id @default(cuid())
+  fire      String
+  police    String
+  ambulance String
+
+  travelPlan   TravelPlan? @relation(fields: [travelPlanId], references: [id], onDelete: Cascade)
+  travelPlanId String?
+}
+
+model LifeQualityIndices {
+  id                 String @id @default(cuid())
+  climate_index      Float
+  safety_index       Float
+  health_care_index  Float
+  traffic_time_index Float
+  pollution_index    Float
+
+  travelPlan   TravelPlan? @relation(fields: [travelPlanId], references: [id], onDelete: Cascade)
+  travelPlanId String?
 }
