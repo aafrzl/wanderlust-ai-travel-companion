@@ -61,22 +61,22 @@ model VerificationToken {
 }
 
 model TravelPlan {
-  id          String      @id @default(cuid())
-  location    String
-  description String
-  days        Int
-  people      String
-  budget      String
-  hotels      Hotel[]
-  itinerary   Itinerary[]
-  userId      String
-  user        User        @relation(fields: [userId], references: [id])
+  id                 String              @id @default(cuid())
+  location           String
+  description        String
+  days               Int
+  people             String
+  budget             String
+  hotels             Hotel[]
+  itinerary          Itinerary[]
+  userId             String
+  user               User                @relation(fields: [userId], references: [id])
+  wifiInformation    WifiInformation?
+  emergencyNumbers   EmergencyNumbers?
+  lifeQualityIndices LifeQualityIndices?
 
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
-  WifiInformation    WifiInformation[]
-  EmergencyNumbers   EmergencyNumbers[]
-  LifeQualityIndices LifeQualityIndices[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Hotel {
@@ -118,32 +118,38 @@ model Place {
 }
 
 model WifiInformation {
-  id        String @id @default(cuid())
-  broadband String
-  mobile    String
+  id           String     @id @default(cuid())
+  broadband    String
+  mobile       String
+  travelPlanId String     @unique
+  travelPlan   TravelPlan @relation(fields: [travelPlanId], references: [id], onDelete: Cascade)
 
-  travelPlan   TravelPlan? @relation(fields: [travelPlanId], references: [id], onDelete: Cascade)
-  travelPlanId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model EmergencyNumbers {
-  id        String @id @default(cuid())
-  fire      String
-  police    String
-  ambulance String
+  id           String     @id @default(cuid())
+  fire         String
+  police       String
+  ambulance    String
+  travelPlanId String     @unique
+  travelPlan   TravelPlan @relation(fields: [travelPlanId], references: [id], onDelete: Cascade)
 
-  travelPlan   TravelPlan? @relation(fields: [travelPlanId], references: [id], onDelete: Cascade)
-  travelPlanId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model LifeQualityIndices {
-  id                 String @id @default(cuid())
+  id                 String     @id @default(cuid())
   climate_index      Float
   safety_index       Float
   health_care_index  Float
   traffic_time_index Float
   pollution_index    Float
+  travelPlanId       String     @unique
+  travelPlan         TravelPlan @relation(fields: [travelPlanId], references: [id], onDelete: Cascade)
 
-  travelPlan   TravelPlan? @relation(fields: [travelPlanId], references: [id], onDelete: Cascade)
-  travelPlanId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

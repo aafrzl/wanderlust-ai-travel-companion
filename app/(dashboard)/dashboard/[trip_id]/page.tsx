@@ -81,34 +81,74 @@ export default async function DetailTrip({ params }: Props) {
             </h2>
             <p className="text-muted-foreground">{detailTrip.description}</p>
           </div>
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-x-2">
-              <div className="p-1 rounded-full bg-card-foreground/75">
-                <Wifi className="w-5 h-5 shrink-0 text-muted" />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-x-2">
+                <div className="p-1 rounded-full bg-card-foreground/75">
+                  <Wifi className="w-5 h-5 shrink-0 text-muted" />
+                </div>
+                <h3 className="text-base font-semibold tracking-tight sm:text-lg md:text-xl">
+                  Wifi Information
+                </h3>
               </div>
-              <h3 className="text-base font-semibold tracking-tight sm:text-lg md:text-xl">
-                Wifi Information
-              </h3>
+              <ul className="list-disc ml-10">
+                <li className="text-muted-foreground">
+                  Broadband: {detailTrip.wifiInformation?.broadband}
+                </li>
+                <li className="text-muted-foreground">
+                  Mobile: {detailTrip.wifiInformation?.mobile}
+                </li>
+              </ul>
             </div>
-          </div>
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-x-2">
-              <div className="p-1 rounded-full bg-card-foreground/75">
-                <Phone className="w-5 h-5 shrink-0 text-muted" />
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-x-2">
+                <div className="p-1 rounded-full bg-card-foreground/75">
+                  <Phone className="w-5 h-5 shrink-0 text-muted" />
+                </div>
+                <h3 className="text-base font-semibold tracking-tight sm:text-lg md:text-xl">
+                  Emergency Information
+                </h3>
               </div>
-              <h3 className="text-base font-semibold tracking-tight sm:text-lg md:text-xl">
-                Emergency Information
-              </h3>
+              <ul className="list-disc ml-10">
+                <li className="text-muted-foreground">
+                  Police: {detailTrip.emergencyNumbers?.police}
+                </li>
+                <li className="text-muted-foreground">
+                  Ambulance: {detailTrip.emergencyNumbers?.ambulance}
+                </li>
+                <li className="text-muted-foreground">
+                  Fire: {detailTrip.emergencyNumbers?.fire}
+                </li>
+              </ul>
             </div>
-          </div>
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-x-2">
-              <div className="p-1 rounded-full bg-card-foreground/75">
-                <HeartHandshakeIcon className="w-5 h-5 shrink-0 text-muted" />
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-x-2">
+                <div className="p-1 rounded-full bg-card-foreground/75">
+                  <HeartHandshakeIcon className="w-5 h-5 shrink-0 text-muted" />
+                </div>
+                <h3 className="text-base font-semibold tracking-tight sm:text-lg md:text-xl">
+                  Life Quality Indices
+                </h3>
               </div>
-              <h3 className="text-base font-semibold tracking-tight sm:text-lg md:text-xl">
-                Life Quality Indices
-              </h3>
+              <ul className="list-disc ml-10">
+                <li className="text-muted-foreground">
+                  Safety: {detailTrip.lifeQualityIndices?.safety_index}
+                </li>
+                <li className="text-muted-foreground">
+                  Healthcare: {detailTrip.lifeQualityIndices?.health_care_index}
+                </li>
+                <li className="text-muted-foreground">
+                  Climate: {detailTrip.lifeQualityIndices?.climate_index}
+                </li>
+                <li className="text-muted-foreground">
+                  Traffic Time Index:{" "}
+                  {detailTrip.lifeQualityIndices?.traffic_time_index}
+                </li>
+                <li className="text-muted-foreground">
+                  Pollution Index:{" "}
+                  {detailTrip.lifeQualityIndices?.pollution_index}
+                </li>
+              </ul>
             </div>
           </div>
         </div>

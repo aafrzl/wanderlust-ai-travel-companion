@@ -19,6 +19,22 @@ type AIGeneratedTravelPlan = {
   days: number;
   people: string;
   budget: string;
+  wifi_information: {
+    broadband: string;
+    mobile: string;
+  };
+  emergency_numbers: {
+    fire: string;
+    police: string;
+    ambulance: string;
+  };
+  life_quality_indices: {
+    climate_index: number;
+    safety_index: number;
+    health_care_index: number;
+    traffic_time_index: number;
+    pollution_index: number;
+  };
   hotels: Array<{
     name: string;
     price: number;
@@ -110,8 +126,32 @@ export async function generatePlan(data: TravelPlanType) {
         description: travelPlan.description,
         days: travelPlan.days,
         people: travelPlan.people,
-        budget: travelPlan.budget.toString(),
+        budget: travelPlan.budget.toString().toLocaleLowerCase(),
         userId: session.user?.id as string,
+        wifiInformation: {
+          create: {
+            broadband: travelPlan.wifi_information.broadband,
+            mobile: travelPlan.wifi_information.mobile,
+          },
+        },
+        emergencyNumbers: {
+          create: {
+            fire: travelPlan.emergency_numbers.fire,
+            police: travelPlan.emergency_numbers.police,
+            ambulance: travelPlan.emergency_numbers.ambulance,
+          },
+        },
+        lifeQualityIndices: {
+          create: {
+            climate_index: travelPlan.life_quality_indices.climate_index,
+            safety_index: travelPlan.life_quality_indices.safety_index,
+            health_care_index:
+              travelPlan.life_quality_indices.health_care_index,
+            traffic_time_index:
+              travelPlan.life_quality_indices.traffic_time_index,
+            pollution_index: travelPlan.life_quality_indices.pollution_index,
+          },
+        },
         hotels: {
           create: travelPlan.hotels.map(
             (hotel): Prisma.HotelCreateWithoutTravelPlanInput => ({
@@ -142,6 +182,9 @@ export async function generatePlan(data: TravelPlanType) {
         },
       },
       include: {
+        wifiInformation: true,
+        emergencyNumbers: true,
+        lifeQualityIndices: true,
         hotels: true,
         itinerary: {
           include: {

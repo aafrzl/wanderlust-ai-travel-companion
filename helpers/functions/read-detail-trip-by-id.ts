@@ -18,15 +18,15 @@ export async function readDetailTripById(
         userId: user_id,
       },
       include: {
-        EmergencyNumbers: true,
-        LifeQualityIndices: true,
-        WifiInformation: true,
         hotels: true,
         itinerary: {
           include: {
             places: true,
           },
         },
+        wifiInformation: true,
+        emergencyNumbers: true,
+        lifeQualityIndices: true,
       },
     });
 
