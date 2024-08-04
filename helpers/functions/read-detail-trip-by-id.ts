@@ -18,6 +18,9 @@ export async function readDetailTripById(
         userId: user_id,
       },
       include: {
+        EmergencyNumbers: true,
+        LifeQualityIndices: true,
+        WifiInformation: true,
         hotels: true,
         itinerary: {
           include: {
