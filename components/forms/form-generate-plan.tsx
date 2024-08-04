@@ -13,7 +13,6 @@ import { useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import NomatimAutocomplete from "../nomatim-autocomplete";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
@@ -28,6 +27,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import MapboxAutocomplete from "../place-autocomplete";
 
 interface Props {
   setIsOpen: (isOpen: boolean) => void;
@@ -74,7 +74,7 @@ export default function FormGeneratePlan({ setIsOpen }: Props) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6"
       >
-        <NomatimAutocomplete
+        <MapboxAutocomplete
           form={form}
           name="location"
           label="Where are you traveling to?"
@@ -212,7 +212,9 @@ export default function FormGeneratePlan({ setIsOpen }: Props) {
                         >
                           <Card className="h-fit w-full border-none">
                             <CardHeader>
-                              <CardTitle className="text-lg">{budget.label}</CardTitle>
+                              <CardTitle className="text-lg">
+                                {budget.label}
+                              </CardTitle>
                               <CardDescription className="text-xs">
                                 {budget.description}
                               </CardDescription>

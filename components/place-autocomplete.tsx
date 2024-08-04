@@ -10,23 +10,21 @@ import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/use-debounce";
 import axios from "axios";
 import { Loader2, Plane } from "lucide-react";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 
-export interface Place {
-  place_id: string;
-  display_name: string;
-  lat: string;
-  lon: string;
-  type: string;
-  importance: number;
-  address: {
-    [key: string]: string;
+export interface MapboxPlace {
+  id: string;
+  place_name: string;
+  center: [number, number];
+  place_type: string[];
+  properties: {
+    [key: string]: any;
   };
 }
 
-interface NomatimAutocompleteProps {
+interface MapboxAutocompleteProps {
   form: UseFormReturn<any>;
   name: string;
   label?: string;
@@ -34,21 +32,21 @@ interface NomatimAutocompleteProps {
   setQuery: (query: string) => void;
 }
 
-export default function NomatimAutocomplete({
+export default function MapboxAutocomplete({
   form,
   name,
   label,
   setQuery,
   query,
-}: NomatimAutocompleteProps) {
+}: MapboxAutocompleteProps) {
   const debouncedQuery = useDebounce(query, 300);
-  const [suggestions, setSuggestions] = useState<Place[]>([]);
+  const [suggestions, setSuggestions] = useState<MapboxPlace[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchSuggestions = async () => {
-      if (debouncedQuery.length <= 2) {
+  const fetchSuggestions = useCallback(
+    async (searchQuery: string) => {
+      if (searchQuery.trim().length === 0) {
         setSuggestions([]);
         setOpen(false);
         return;
@@ -58,27 +56,57 @@ export default function NomatimAutocomplete({
       setOpen(true);
 
       try {
-        const res = await axios.get<Place[]>(
-          `https://nominatim.openstreetmap.org/search`,
+        const res = await axios.get<{ features: MapboxPlace[] }>(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+            debouncedQuery
+          )}.json`,
           {
             params: {
-              q: debouncedQuery,
-              format: "json",
-              addressdetails: 1,
+              access_token: process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN,
               limit: 5,
+              autocomplete: true,
             },
           }
         );
-        setSuggestions(res.data);
+        setSuggestions(res.data.features);
       } catch (error) {
         console.error(`Failed to fetch suggestions: ${error}`);
       } finally {
         setIsLoading(false);
       }
-    };
+    },
+    [debouncedQuery]
+  );
 
-    fetchSuggestions();
-  }, [debouncedQuery]);
+  useEffect(() => {
+    if (debouncedQuery !== query) {
+      fetchSuggestions(debouncedQuery);
+    }
+  }, [debouncedQuery, fetchSuggestions, query]);
+
+  const handleInputChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const newQuery = e.target.value;
+      setQuery(newQuery);
+      if (newQuery.trim().length > 0) {
+        setOpen(true);
+      } else {
+        setSuggestions([]);
+        setOpen(false);
+      }
+    },
+    [setQuery]
+  );
+
+  const handleSelectPlace = useCallback(
+    (place: MapboxPlace) => {
+      setQuery(place.place_name);
+      form.setValue(name, place.place_name);
+      setSuggestions([]);
+      setOpen(false);
+    },
+    [setQuery, form, name]
+  );
 
   return (
     <FormField
@@ -86,19 +114,16 @@ export default function NomatimAutocomplete({
       name={name}
       render={({ field }) => (
         <FormItem>
-          {label && (
-            <FormLabel>{label}</FormLabel>
-          )}
+          {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <div className="relative">
               <Plane className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 shrink-0" />
               <Input
                 type="text"
                 value={query}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setQuery(e.target.value);
-                  setSuggestions([]); // Clear suggestions
-                }}
+                onChange={handleInputChange}
+                onFocus={() => query.length > 2 && setOpen(true)}
+                onBlur={() => setTimeout(() => setOpen(false), 200)}
                 placeholder="Search Location..."
                 className="w-full pl-7"
               />
@@ -114,16 +139,12 @@ export default function NomatimAutocomplete({
                     <CommandGroup>
                       {suggestions.map((place) => (
                         <CommandItem
-                          key={place.place_id}
-                          value={place.place_id.toString()}
-                          onSelect={() => {
-                            setQuery(place.display_name);
-                            field.onChange(place.display_name);
-                            setOpen(false);
-                          }}
+                          key={place.id}
+                          value={place.id}
+                          onSelect={() => handleSelectPlace(place)}
                           className="space-y-4"
                         >
-                          <span>{place.display_name}</span>
+                          <span>{place.place_name}</span>
                         </CommandItem>
                       ))}
                     </CommandGroup>

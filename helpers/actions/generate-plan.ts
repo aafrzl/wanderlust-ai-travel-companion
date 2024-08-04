@@ -89,7 +89,7 @@ export async function generatePlan(data: TravelPlanType) {
 
   const parts = [
     {
-      text: `Generate a travel plan for ${location} for ${days} days with ${people} people for ${activities}, Nature with ${budget} budget`,
+      text: `Generate a travel plan for ${location} for ${days} days with ${people} people for ${activities} with ${budget} budget`,
     },
   ];
 
