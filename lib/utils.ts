@@ -24,7 +24,5 @@ export const budgetEstimate = (budget: string) => {
       return "around 3.000.000-5.000.000 IDR";
     case "high":
       return "around 5.000.000-10.000.000 IDR";
-    default:
-      return "User input budget";
   }
 };

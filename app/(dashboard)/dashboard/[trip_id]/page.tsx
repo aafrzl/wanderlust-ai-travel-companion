@@ -15,6 +15,9 @@ import { notFound, redirect } from "next/navigation";
 import "@smastrom/react-rating/style.css";
 import HotelCard from "@/components/cards/hotel-card";
 import { HeartHandshakeIcon, Phone, Wifi } from "lucide-react";
+import HeadingIcon from "../../_components/heading-icon";
+import HeadingTitle from "../../_components/heading-title";
+import { TimelineLayout } from "@/components/layouts/timeline-layout";
 
 interface Props {
   params: {
@@ -79,104 +82,120 @@ export default async function DetailTrip({ params }: Props) {
             <h2 className="text-lg font-semibold tracking-tight sm:text-xl md:text-2xl">
               About {detailTrip.location}
             </h2>
-            <p className="text-muted-foreground">{detailTrip.description}</p>
+            <p className="text-muted-foreground text-justify sm:text-pretty">
+              {detailTrip.description}
+            </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-x-2">
-                <div className="p-1 rounded-full bg-card-foreground/75">
-                  <Wifi className="w-5 h-5 shrink-0 text-muted" />
-                </div>
-                <h3 className="text-base font-semibold tracking-tight sm:text-lg md:text-xl">
-                  Wifi Information
-                </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 gap-2">
+              <div className="space-y-2">
+                <HeadingIcon
+                  title="Wifi Information"
+                  icon={<Wifi className="w-5 h-5 shrink-0 text-muted" />}
+                />
+                <ul className="list-disc ml-10">
+                  <li className="text-muted-foreground">
+                    Broadband: {detailTrip.wifiInformation?.broadband}
+                  </li>
+                  <li className="text-muted-foreground">
+                    Mobile: {detailTrip.wifiInformation?.mobile}
+                  </li>
+                </ul>
               </div>
-              <ul className="list-disc ml-10">
-                <li className="text-muted-foreground">
-                  Broadband: {detailTrip.wifiInformation?.broadband}
-                </li>
-                <li className="text-muted-foreground">
-                  Mobile: {detailTrip.wifiInformation?.mobile}
-                </li>
-              </ul>
+              <div className="space-y-2">
+                <HeadingIcon
+                  title="Emergency Information"
+                  icon={<Phone className="w-5 h-5 shrink-0 text-muted" />}
+                />
+                <ul className="list-disc ml-10">
+                  <li className="text-muted-foreground">
+                    Police: {detailTrip.emergencyNumbers?.police}
+                  </li>
+                  <li className="text-muted-foreground">
+                    Ambulance: {detailTrip.emergencyNumbers?.ambulance}
+                  </li>
+                  <li className="text-muted-foreground">
+                    Fire: {detailTrip.emergencyNumbers?.fire}
+                  </li>
+                </ul>
+              </div>
+              <div className="space-y-2">
+                <HeadingIcon
+                  title="Life Quality Indices"
+                  icon={
+                    <HeartHandshakeIcon className="w-5 h-5 shrink-0 text-muted" />
+                  }
+                />
+                <ul className="list-disc ml-10">
+                  <li className="text-muted-foreground">
+                    Safety: {detailTrip.lifeQualityIndices?.safety_index}
+                  </li>
+                  <li className="text-muted-foreground">
+                    Healthcare:{" "}
+                    {detailTrip.lifeQualityIndices?.health_care_index}
+                  </li>
+                  <li className="text-muted-foreground">
+                    Climate: {detailTrip.lifeQualityIndices?.climate_index}
+                  </li>
+                  <li className="text-muted-foreground">
+                    Traffic Time Index:{" "}
+                    {detailTrip.lifeQualityIndices?.traffic_time_index}
+                  </li>
+                  <li className="text-muted-foreground">
+                    Pollution Index:{" "}
+                    {detailTrip.lifeQualityIndices?.pollution_index}
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-x-2">
-                <div className="p-1 rounded-full bg-card-foreground/75">
-                  <Phone className="w-5 h-5 shrink-0 text-muted" />
-                </div>
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2">
                 <h3 className="text-base font-semibold tracking-tight sm:text-lg md:text-xl">
-                  Emergency Information
+                  Budget for the trip
                 </h3>
+                <p className="text-muted-foreground">
+                  <span className="mr-1">
+                    {budget === "high" ||
+                    budget === "medium" ||
+                    budget === "low"
+                      ? budget.charAt(0).toUpperCase() + budget.slice(1)
+                      : formatCurrency(budget)}
+                  </span>
+                  {budgetEstimate(budget)}
+                </p>
               </div>
-              <ul className="list-disc ml-10">
-                <li className="text-muted-foreground">
-                  Police: {detailTrip.emergencyNumbers?.police}
-                </li>
-                <li className="text-muted-foreground">
-                  Ambulance: {detailTrip.emergencyNumbers?.ambulance}
-                </li>
-                <li className="text-muted-foreground">
-                  Fire: {detailTrip.emergencyNumbers?.fire}
-                </li>
-              </ul>
-            </div>
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-x-2">
-                <div className="p-1 rounded-full bg-card-foreground/75">
-                  <HeartHandshakeIcon className="w-5 h-5 shrink-0 text-muted" />
-                </div>
+              <div className="flex flex-col gap-2">
                 <h3 className="text-base font-semibold tracking-tight sm:text-lg md:text-xl">
-                  Life Quality Indices
+                  Duration of the trip
                 </h3>
+                <p className="text-muted-foreground">{detailTrip.days} Days</p>
               </div>
-              <ul className="list-disc ml-10">
-                <li className="text-muted-foreground">
-                  Safety: {detailTrip.lifeQualityIndices?.safety_index}
-                </li>
-                <li className="text-muted-foreground">
-                  Healthcare: {detailTrip.lifeQualityIndices?.health_care_index}
-                </li>
-                <li className="text-muted-foreground">
-                  Climate: {detailTrip.lifeQualityIndices?.climate_index}
-                </li>
-                <li className="text-muted-foreground">
-                  Traffic Time Index:{" "}
-                  {detailTrip.lifeQualityIndices?.traffic_time_index}
-                </li>
-                <li className="text-muted-foreground">
-                  Pollution Index:{" "}
-                  {detailTrip.lifeQualityIndices?.pollution_index}
-                </li>
-              </ul>
             </div>
           </div>
         </div>
-        <div className="space-y-2">
-          <h2 className="text-lg font-semibold tracking-tight sm:text-xl md:text-2xl">
-            Details of the trip
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="flex flex-col gap-2">
-              <h3 className="text-base font-semibold tracking-tight sm:text-lg md:text-xl">
-                Budget for the trip :
-              </h3>
-              <p className="text-muted-foreground">
-                <span className="mr-1">
-                  {budget === "high" || budget === "medium" || budget === "low"
-                    ? budget.charAt(0).toUpperCase() + budget.slice(1)
-                    : formatCurrency(budget)}
-                </span>
-                {budgetEstimate(budget)}
-              </p>
-            </div>
-            <div className="flex flex-col gap-2 sm:m-auto">
-              <h3 className="text-base font-semibold tracking-tight sm:text-lg md:text-xl">
-                Duration of the trip :
-              </h3>
-              <p className="text-muted-foreground">{detailTrip.days} Days</p>
-            </div>
+      </div>
+      <div className="container mx-auto flex flex-col gap-8 py-5">
+        <div className="flex flex-col gap-4">
+          <HeadingTitle
+            title={`Recomedation hotels in ${detailTrip.location}`}
+            description="Here are some of the best hotels in the location. Book your stay now!"
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {detailTrip.hotels.map((hotel) => (
+              <HotelCard
+                hotel={hotel}
+                key={hotel.id}
+              />
+            ))}
           </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <HeadingTitle
+            title="Itenerary for the trip"
+            description="Here is the itenerary for the trip. Enjoy your trip!"
+          />
+          {/* Timeline days Itenerary with grid card places */}
+          <TimelineLayout items={detailTrip.itinerary} />
         </div>
       </div>
     </section>
