@@ -5,7 +5,7 @@ import React from "react";
 export default function Logo() {
   return (
     <Link
-      href="/dashboard"
+      href="/"
       className="flex items-center gap-2 text-lg font-semibold md:text-base"
     >
       <Image
