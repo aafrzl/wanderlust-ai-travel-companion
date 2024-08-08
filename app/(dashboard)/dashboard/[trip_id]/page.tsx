@@ -1,9 +1,6 @@
 import { auth } from "@/auth";
 import BlurImage from "@/components/blur-image";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { readDetailTripById } from "@/helpers/functions/read-detail-trip-by-id";
-import { getPhotoForPlace } from "@/lib/foursquare/foursquare";
 import { getLocationImagesPixabay } from "@/lib/unsplash/generate-image-url";
 import {
   budgetEstimate,
@@ -13,12 +10,12 @@ import {
 } from "@/lib/utils";
 import { notFound, redirect } from "next/navigation";
 
-import "@smastrom/react-rating/style.css";
 import HotelCard from "@/components/cards/hotel-card";
+import { TimelineLayout } from "@/components/layouts/timeline-layout";
+import "@smastrom/react-rating/style.css";
 import { HeartHandshakeIcon, Phone, Wifi } from "lucide-react";
 import HeadingIcon from "../../_components/heading-icon";
 import HeadingTitle from "../../_components/heading-title";
-import { TimelineLayout } from "@/components/layouts/timeline-layout";
 
 interface Props {
   params: {
