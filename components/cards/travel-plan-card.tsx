@@ -29,14 +29,16 @@ export default function TravelPlanCard({
       <CardHeader>
         {imageUrl && (
           <div className="relative w-full h-48 mb-4">
-            <BlurImage
-              alt={location}
-              src={imageUrl || "placeholder-image.webp"}
-              fill
-              className="rounded-md object-cover"
-              placeholder="blur"
-              blurDataURL={placeholderBlurhash}
-            />
+            <Link href={`/dashboard/${travelPlanId}`}>
+              <BlurImage
+                alt={location}
+                src={imageUrl || "placeholder-image.webp"}
+                fill
+                className="rounded-md object-cover"
+                placeholder="blur"
+                blurDataURL={placeholderBlurhash}
+              />
+            </Link>
             <div className="absolute bottom-0 right-0 bg-black bg-opacity-75 text-xs p-2 rounded-tl-md rounded-br-md text-white">
               {photographer ? `Photo by ${photographer} on` : ""}
               <a
