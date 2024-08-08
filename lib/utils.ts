@@ -23,6 +23,18 @@ export const budgetEstimate = (budget: string) => {
     case "medium":
       return "around 3.000.000-5.000.000 IDR";
     case "high":
-      return "around 5.000.000-10.000.000 IDR";
+      return "around 5.000.000+++ IDR";
+  }
+};
+
+export const statusLifeQuality = (index: number) => {
+  if (index >= 0 && index <= 2.5) {
+    return "Very Low";
+  } else if (index > 2.5 && index <= 3.5) {
+    return "Low";
+  } else if (index > 3.5 && index <= 4.5) {
+    return "Medium";
+  } else if (index > 4.5 && index <= 5) {
+    return "High";
   }
 };

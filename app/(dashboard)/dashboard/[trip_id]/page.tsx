@@ -9,6 +9,7 @@ import {
   budgetEstimate,
   formatCurrency,
   placeholderBlurhash,
+  statusLifeQuality,
 } from "@/lib/utils";
 import { notFound, redirect } from "next/navigation";
 
@@ -126,24 +127,61 @@ export default async function DetailTrip({ params }: Props) {
                     <HeartHandshakeIcon className="w-5 h-5 shrink-0 text-muted" />
                   }
                 />
-                <ul className="list-disc ml-10">
+                <ul className="list-disc ml-10 space-y-2">
                   <li className="text-muted-foreground">
-                    Safety: {detailTrip.lifeQualityIndices?.safety_index}
+                    <span>
+                      Safety: {detailTrip.lifeQualityIndices?.safety_index}
+                    </span>
+                    <span className="mx-2 inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                      {statusLifeQuality(
+                        Number(detailTrip.lifeQualityIndices?.safety_index)
+                      )}
+                    </span>
                   </li>
                   <li className="text-muted-foreground">
-                    Healthcare:{" "}
-                    {detailTrip.lifeQualityIndices?.health_care_index}
+                    <span>
+                      Healthcare:{" "}
+                      {detailTrip.lifeQualityIndices?.health_care_index}
+                    </span>
+                    <span className="mx-2 inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                      {statusLifeQuality(
+                        Number(detailTrip.lifeQualityIndices?.health_care_index)
+                      )}
+                    </span>
                   </li>
                   <li className="text-muted-foreground">
-                    Climate: {detailTrip.lifeQualityIndices?.climate_index}
+                    <span>
+                      Climate: {detailTrip.lifeQualityIndices?.climate_index}
+                    </span>
+                    <span className="mx-2 inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                      {statusLifeQuality(
+                        Number(detailTrip.lifeQualityIndices?.climate_index)
+                      )}
+                    </span>
                   </li>
                   <li className="text-muted-foreground">
-                    Traffic Time Index:{" "}
-                    {detailTrip.lifeQualityIndices?.traffic_time_index}
+                    <span>
+                      Traffic Time Index:{" "}
+                      {detailTrip.lifeQualityIndices?.traffic_time_index}
+                    </span>
+                    <span className="mx-2 inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                      {statusLifeQuality(
+                        Number(
+                          detailTrip.lifeQualityIndices?.traffic_time_index
+                        )
+                      )}
+                    </span>
                   </li>
                   <li className="text-muted-foreground">
-                    Pollution Index:{" "}
-                    {detailTrip.lifeQualityIndices?.pollution_index}
+                    <span>
+                      Pollution Index:{" "}
+                      {detailTrip.lifeQualityIndices?.pollution_index}
+                    </span>
+                    <span className="mx-2 inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                      {statusLifeQuality(
+                        Number(detailTrip.lifeQualityIndices?.pollution_index)
+                      )}
+                    </span>
                   </li>
                 </ul>
               </div>
