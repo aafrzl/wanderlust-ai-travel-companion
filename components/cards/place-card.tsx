@@ -2,22 +2,24 @@ import { placeholderBlurhash } from "@/lib/utils";
 import BlurImage from "../blur-image";
 import { Card } from "../ui/card";
 import { Separator } from "../ui/separator";
+import { getPhotoTravelAdvisor } from "@/lib/traveladvisor/travel-advisor-services";
 
 interface Props {
-  img?: string;
   place: Place;
 }
 
-export default function PlaceCard({ img, place }: Props) {
+export default async function PlaceCard({ place }: Props) {
+  const photo = await getPhotoTravelAdvisor(place.name, "");
+
   return (
     <Card className="flex flex-col sm:flex-row gap-x-2 w-full md:w-1/2">
       <div className="p-2">
         <BlurImage
-          src={img || "/placeholder-image.webp"}
+          src={photo || "/placeholder-image.webp"}
           alt={place.name}
           width={160}
           height={160}
-          className="sm:w-24 sm:h-24 w-full rounded-md hover:scale-95 transform transition-transform duration-500 ease-in-out"
+          className="sm:w-24 sm:h-24 w-full rounded-md hover:scale-95 transform transition-transform duration-500 ease-in-out object-cover"
           placeholder="blur"
           blurDataURL={placeholderBlurhash}
         />

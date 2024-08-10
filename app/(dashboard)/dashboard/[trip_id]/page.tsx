@@ -12,10 +12,12 @@ import { notFound, redirect } from "next/navigation";
 
 import HotelCard from "@/components/cards/hotel-card";
 import { TimelineLayout } from "@/components/layouts/timeline-layout";
+import { getPhotoTravelAdvisor } from "@/lib/traveladvisor/travel-advisor-services";
 import "@smastrom/react-rating/style.css";
 import { HeartHandshakeIcon, Phone, Wifi } from "lucide-react";
 import HeadingIcon from "../../_components/heading-icon";
 import HeadingTitle from "../../_components/heading-title";
+import console from "console";
 
 interface Props {
   params: {
@@ -43,6 +45,18 @@ export default async function DetailTrip({ params }: Props) {
 
   // Fetch banner photo for the location
   const locationPhoto = await getLocationImagesPixabay(detailTrip.location);
+
+  // Fetch photo for the hotels
+  const hotelPhotos = await Promise.all(
+    detailTrip.hotels.map((hotel) =>
+      getPhotoTravelAdvisor(hotel.name, "hotels")
+    )
+  );
+
+  const hotels = detailTrip.hotels.map((hotel, index) => ({
+    ...hotel,
+    photo: hotelPhotos[index],
+  }));
 
   return (
     <section className="flex flex-col gap-8">
@@ -216,7 +230,7 @@ export default async function DetailTrip({ params }: Props) {
             description="Here are some of the best hotels in the location. Book your stay now!"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {detailTrip.hotels.map((hotel) => (
+            {hotels.map((hotel) => (
               <HotelCard
                 hotel={hotel}
                 key={hotel.id}

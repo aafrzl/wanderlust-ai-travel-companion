@@ -3,6 +3,22 @@ import axios from "axios";
 const TRIPADVISOR_API_KEY = process.env.TRIPADVISOR_API_KEY;
 const BASE_URL = "https://api.content.tripadvisor.com/api/v1";
 
+interface Address {
+  street1: string;
+  street2?: string;
+  city: string;
+  state?: string;
+  country: string;
+  portalcode: string;
+  address: string;
+}
+
+interface Place {
+  location_id: string;
+  name: string;
+  address_obj: Address;
+}
+
 interface ImageDetail {
   height: number;
   width: number;
@@ -35,18 +51,19 @@ export async function searchPlace(query: string, category: string) {
   try {
     const response = await axios.get(`${BASE_URL}/location/search`, {
       params: {
-        query,
         key: TRIPADVISOR_API_KEY,
+        searchQuery: query,
+        category: category,
         radius: "1000",
         radiusUnit: "km",
-        category,
+        language: "en",
       },
       headers: {
         Accept: "application/json",
       },
     });
 
-    const place = response.data[0];
+    const place: Place = response.data.data[0];
     if (place) return place;
     return null;
   } catch (error) {
@@ -71,7 +88,7 @@ export async function getPlacePhoto(
         },
       }
     );
-    const photo = response.data[0];
+    const photo = response.data.data[0];
     return photo || null;
   } catch (error) {
     console.error("Failed to fetch place photo: ", error);
@@ -79,7 +96,7 @@ export async function getPlacePhoto(
   }
 }
 
-export async function getPhotoForPlace(query: string, category: string) {
+export async function getPhotoTravelAdvisor(query: string, category: string) {
   const place = await searchPlace(query, category);
   if (place) {
     const photo = await getPlacePhoto(place.location_id);
