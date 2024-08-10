@@ -101,7 +101,7 @@ export async function getPhotoTravelAdvisor(query: string, category: string) {
   if (place) {
     const photo = await getPlacePhoto(place.location_id);
     if (photo) {
-      return photo.images.original.url;
+      return photo.images.original?.url;
     }
   }
   return null;

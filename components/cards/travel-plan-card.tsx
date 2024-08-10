@@ -3,6 +3,7 @@ import { formatCurrency, placeholderBlurhash } from "@/lib/utils";
 import { Calendar, UsersIcon, Wallet } from "lucide-react";
 import Link from "next/link";
 import BlurImage from "../blur-image";
+import AlertModalDelete from "../modals/alert-modal-delete";
 import { Badge } from "../ui/badge";
 
 interface Props {
@@ -25,7 +26,7 @@ export default function TravelPlanCard({
   travelPlanId,
 }: Props) {
   return (
-    <Card className="h-full max-w-[450px] cursor-pointer hover:border-primary transition-all duration-300 ease-in-out">
+    <Card className="h-full max-w-[450px] cursor-pointer hover:border-primary transition-all duration-300 ease-in-out relative">
       <CardHeader>
         {imageUrl && (
           <div className="relative w-full h-48 mb-4">
@@ -77,6 +78,9 @@ export default function TravelPlanCard({
           </Badge>
         </CardContent>
       </Link>
+      <div className="absolute top-5 right-5">
+        <AlertModalDelete travelPlanId={travelPlanId} />
+      </div>
     </Card>
   );
 }

@@ -2,9 +2,9 @@ import RootProvider from "@/components/root-providers";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import { Toaster } from "@/components/ui/toaster";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const font = Montserrat({ subsets: ["latin"] });
 
