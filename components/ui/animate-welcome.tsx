@@ -38,8 +38,7 @@ const AnimatedWelcome: React.FC<AnimatedWelcomeProps> = ({ name }) => {
       <motion.span
         variants={waveVariants}
         animate="wave"
-        style={{ display: "inline-block", originX: 0.7, originY: 0.7 }}
-        className="text-3xl"
+        className="text-3xl hidden sm:block"
       >
         👋🏻
       </motion.span>
