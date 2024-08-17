@@ -16,26 +16,18 @@ export default async function DashboardPage() {
   const name = session.user?.name;
   const user_id = session.user?.id;
 
-  const travelPlans = await readTravelPlans(user_id!);
-
   return (
     <section className="container mx-auto flex flex-col gap-8 py-[60px] lg:py-14">
       <div className="space-y-1">
         <h1 className="text-2xl font-semibold tracking-tighter">
           Welcome, {name}👋🏻
         </h1>
-        {travelPlans?.length! > 0 ? (
-          <p className="text-base sm:text-lg font-medium">
-            Here are your travel plans generate by AI. 🚀
-          </p>
-        ) : (
-          <p className="text-base sm:text-lg font-medium">
-            Let&apos;s get started by generating your travel plan. 🚀
-          </p>
-        )}
+        <p className="text-base sm:text-lg font-medium">
+          Let&apos;s get started by generating your travel plan. 🚀
+        </p>
       </div>
       <Suspense fallback={<TravelPlansSkeletonLoader />}>
-        <TravelPlans travelPlans={travelPlans || []} />
+        <TravelPlans user_id={user_id!} />
       </Suspense>
     </section>
   );

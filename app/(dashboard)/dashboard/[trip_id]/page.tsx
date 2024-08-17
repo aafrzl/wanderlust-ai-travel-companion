@@ -17,7 +17,6 @@ import "@smastrom/react-rating/style.css";
 import { HeartHandshakeIcon, Phone, Wifi } from "lucide-react";
 import HeadingIcon from "../../_components/heading-icon";
 import HeadingTitle from "../../_components/heading-title";
-import console from "console";
 
 interface Props {
   params: {

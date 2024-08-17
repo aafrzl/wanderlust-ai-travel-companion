@@ -1,19 +1,11 @@
 import TravelPlanCard from "@/components/cards/travel-plan-card";
 import CreateTravelPlan from "@/components/modals/create-travel-plan";
-import { TravelPlan } from "@prisma/client";
-import React from "react";
+import { readTravelPlans } from "@/helpers/functions/read-travel-plans";
 
-interface TravelPlanWithImage extends TravelPlan {
-  imageUrl: string | null;
-  photographer: string | null;
-}
+export default async function TravelPlans({ user_id }: { user_id: string }) {
+  const travelPlans = await readTravelPlans(user_id!);
 
-interface Props {
-  travelPlans: TravelPlanWithImage[];
-}
-
-export default function TravelPlans({ travelPlans }: Props) {
-  return travelPlans.length > 0 ? (
+  return travelPlans?.length! > 0 ? (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
       <CreateTravelPlan />
       {travelPlans?.map((plan) => (
