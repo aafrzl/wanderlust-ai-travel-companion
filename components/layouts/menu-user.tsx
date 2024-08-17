@@ -1,8 +1,7 @@
 "use client";
 
-import { CircleUser } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
-import { Button } from "../ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function MenuUser() {
   const session = useSession();

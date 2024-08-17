@@ -1,13 +1,12 @@
 import { signIn } from "@/auth";
-import BlurImage from "@/components/blur-image";
 import Logo from "@/components/layouts/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { NeonGradientCard } from "@/components/ui/neon-gradient-card";
 import { getLocationImagesPixabay } from "@/lib/unsplash/generate-image-url";
-import { placeholderBlurhash } from "@/lib/utils";
 
 import GoogleIcon from "@/public/logo-google.svg";
+import Image from "next/image";
 
 export default async function SignInPage() {
   const location = ["mountain", "beach", "city", "nature"];
@@ -19,9 +18,8 @@ export default async function SignInPage() {
     imagePixabay[Math.floor(Math.random() * imagePixabay.length)];
 
   return (
-    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px] bg-background">
       <div className="flex flex-col gap-8 items-center justify-center py-12 h-screen relative">
-        <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
         <div className="absolute top-0 flex items-center justify-between w-full px-5 sm:px-4">
           <Logo />
           <ThemeToggle />
@@ -62,14 +60,12 @@ export default async function SignInPage() {
         </NeonGradientCard>
       </div>
       <div className="hidden bg-muted lg:block h-screen relative">
-        <BlurImage
+        <Image
           src={randomImage.url}
           alt="Image"
           width="1920"
           height="1080"
           className="h-full w-full object-cover dark:brightness-50 dark:grayscale"
-          placeholder="blur"
-          blurDataURL={placeholderBlurhash}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background to-transparent" />
         <div className="absolute bottom-0 right-0 p-4 bg-background/70 rounded-tl-xl">
