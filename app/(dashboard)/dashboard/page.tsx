@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import CreateTravelPlan from "@/components/modals/create-travel-plan";
-import { readTravelPlans } from "@/helpers/functions/read-travel-plans";
+import AnimatedWelcome from "@/components/ui/animate-welcome";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import TravelPlans from "../_components/travel-plans";
@@ -19,11 +19,9 @@ export default async function DashboardPage() {
   return (
     <section className="container mx-auto flex flex-col gap-8 py-[60px] lg:py-14">
       <div className="space-y-1">
-        <h1 className="text-2xl font-semibold tracking-tighter">
-          Welcome, {name}👋🏻
-        </h1>
-        <p className="text-base sm:text-lg font-medium">
-          Let&apos;s get started by generating your travel plan. 🚀
+        <AnimatedWelcome name={name!} />
+        <p className="text-base sm:text-lg font-medium text-muted-foreground">
+          Let&apos;s get started by generating your travel plan.
         </p>
       </div>
       <Suspense fallback={<TravelPlansSkeletonLoader />}>
