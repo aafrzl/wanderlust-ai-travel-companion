@@ -104,9 +104,11 @@ export async function generatePlan(data: TravelPlanType) {
     },
   ];
 
+  const activitiesData = data.activities.join(", ");
+
   const parts = [
     {
-      text: `Generate a travel plan for ${location} for ${days} days with ${people} people for ${activities} with ${budget} budget`,
+      text: `Generate a travel plan for ${location} for ${days} days with ${people} people for ${activitiesData} with ${budget} budget`,
     },
   ];
 
@@ -192,11 +194,11 @@ export async function generatePlan(data: TravelPlanType) {
               places: {
                 create: day.places.map(
                   (place): Prisma.PlaceCreateWithoutItineraryInput => ({
-                    name: place.name,
-                    details: place.details,
-                    ticket_pricing: place.ticket_pricing,
-                    travel_time: place.travel_time,
-                    best_time_to_visit: place.best_time_to_visit,
+                    name: place.name.toString(),
+                    details: place.details.toString(),
+                    ticket_pricing: place.ticket_pricing.toString(),
+                    travel_time: place.travel_time.toString(),
+                    best_time_to_visit: place.best_time_to_visit.toString(),
                     photoUrl: place.photoUrl,
                   })
                 ),
