@@ -2,6 +2,7 @@
 
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
+import { getPhotoTravelAdvisor } from "@/lib/traveladvisor/travel-advisor-services";
 import { TravelPlanSchema, TravelPlanType } from "@/schema";
 import {
   GoogleGenerativeAI,
@@ -120,6 +121,27 @@ export async function generatePlan(data: TravelPlanType) {
 
     const travelPlan: AIGeneratedTravelPlan = JSON.parse(response.text());
 
+    //Fetch and add photo url for hotels
+    const hotelsWithPhotos = await Promise.all(
+      travelPlan.hotels.map(async (hotel) => {
+        const photoUrl = await getPhotoTravelAdvisor(hotel.name, "hotels");
+        return { ...hotel, photoUrl };
+      })
+    );
+
+    //Fetch and add photo url for places
+    const itineraryWithPhotos = await Promise.all(
+      travelPlan.itinerary.map(async (day) => {
+        const placesWithPhotos = await Promise.all(
+          day.places.map(async (place) => {
+            const photoUrl = await getPhotoTravelAdvisor(place.name, "");
+            return { ...place, photoUrl };
+          })
+        );
+        return { ...day, places: placesWithPhotos };
+      })
+    );
+
     const createdPlan = await prisma.travelPlan.create({
       data: {
         location: travelPlan.location,
@@ -153,17 +175,18 @@ export async function generatePlan(data: TravelPlanType) {
           },
         },
         hotels: {
-          create: travelPlan.hotels.map(
+          create: hotelsWithPhotos.map(
             (hotel): Prisma.HotelCreateWithoutTravelPlanInput => ({
               name: hotel.name,
               price: hotel.price,
               rating: hotel.rating,
               description: hotel.description,
+              photoUrl: hotel.photoUrl,
             })
           ),
         },
         itinerary: {
-          create: travelPlan.itinerary.map(
+          create: itineraryWithPhotos.map(
             (day): Prisma.ItineraryCreateWithoutTravelPlanInput => ({
               day: day.day,
               places: {
@@ -174,6 +197,7 @@ export async function generatePlan(data: TravelPlanType) {
                     ticket_pricing: place.ticket_pricing,
                     travel_time: place.travel_time,
                     best_time_to_visit: place.best_time_to_visit,
+                    photoUrl: place.photoUrl,
                   })
                 ),
               },

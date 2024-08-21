@@ -2,20 +2,17 @@ import { placeholderBlurhash } from "@/lib/utils";
 import BlurImage from "../blur-image";
 import { Card } from "../ui/card";
 import { Separator } from "../ui/separator";
-import { getPhotoTravelAdvisor } from "@/lib/traveladvisor/travel-advisor-services";
 
 interface Props {
   place: Place;
 }
 
 export default async function PlaceCard({ place }: Props) {
-  const photo = await getPhotoTravelAdvisor(place.name, "");
-
   return (
     <Card className="flex flex-col sm:flex-row gap-x-2 w-full md:w-1/2">
       <div className="p-2">
         <BlurImage
-          src={photo || "/placeholder-image.webp"}
+          src={place.photoUrl || "/placeholder-image.webp"}
           alt={place.name}
           width={160}
           height={160}

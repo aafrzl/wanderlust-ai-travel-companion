@@ -22,7 +22,7 @@ type Hotel = {
   rating: number;
   description: string;
   travelPlanId: string;
-  photo: string | null;
+  photoUrl: string | null;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -44,6 +44,7 @@ type Place = {
   travel_time: string;
   best_time_to_visit: string;
   itineraryId: string;
+  photoUrl: string | null;
   createdAt: Date;
   updatedAt: Date;
 };

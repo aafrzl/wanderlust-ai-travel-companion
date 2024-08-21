@@ -14,7 +14,7 @@ export default function HotelCard({ hotel }: { hotel: Hotel }) {
   return (
     <Card className="w-full max-w-sm rounded-lg overflow-hidden shadow-lg">
       <BlurImage
-        src={hotel.photo || "/placeholder-image.webp"}
+        src={hotel.photoUrl || "/placeholder-image.webp"}
         alt={hotel.name}
         width={600}
         height={400}

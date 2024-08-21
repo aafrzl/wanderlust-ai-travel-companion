@@ -86,6 +86,7 @@ model Hotel {
   rating       Float
   description  String
   travelPlanId String
+  photoUrl     String?
   travelPlan   TravelPlan @relation(fields: [travelPlanId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
@@ -111,6 +112,7 @@ model Place {
   travel_time        String
   best_time_to_visit String
   itineraryId        String
+  photoUrl           String?
   itinerary          Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())

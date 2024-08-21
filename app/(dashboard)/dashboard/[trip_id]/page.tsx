@@ -45,17 +45,7 @@ export default async function DetailTrip({ params }: Props) {
   // Fetch banner photo for the location
   const locationPhoto = await getLocationImagesPixabay(detailTrip.location);
 
-  // Fetch photo for the hotels
-  const hotelPhotos = await Promise.all(
-    detailTrip.hotels.map((hotel) =>
-      getPhotoTravelAdvisor(hotel.name, "hotels")
-    )
-  );
-
-  const hotels = detailTrip.hotels.map((hotel, index) => ({
-    ...hotel,
-    photo: hotelPhotos[index],
-  }));
+  const hotels = detailTrip.hotels;
 
   return (
     <section className="flex flex-col gap-8">
