@@ -69,7 +69,7 @@ export async function generatePlan(data: TravelPlanType) {
     throw new Error("Unauthorized");
   }
 
-  const { location, days, people, budget, activities } = data;
+  const { location, days, people, budget } = data;
 
   const model = genAI.getGenerativeModel({
     model: "gemini-1.5-flash",
