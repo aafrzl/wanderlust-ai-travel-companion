@@ -32,6 +32,11 @@ export default function MenuUser() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
+        <p className="text-xs px-2 py-1.5">
+          <strong>{session.data?.user?.name}</strong>
+          <br />
+          <span className="text-gray-500">{session.data?.user?.email}</span>
+        </p>
         <DropdownMenuItem>
           <Link href={"mailto:afrizal.mufriz25@gmail.com"}>Support</Link>
         </DropdownMenuItem>
