@@ -23,6 +23,7 @@ type Hotel = {
   description: string;
   travelPlanId: string;
   photoUrl: string | null;
+  web_url: string | null;
   createdAt: Date;
   updatedAt: Date;
 };

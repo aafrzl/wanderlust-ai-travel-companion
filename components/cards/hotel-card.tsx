@@ -1,8 +1,11 @@
-import { placeholderBlurhash, formatCurrency } from "@/lib/utils";
+import { placeholderBlurhash, formatCurrency, cn } from "@/lib/utils";
 import React from "react";
 import BlurImage from "../blur-image";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent, CardFooter } from "../ui/card";
 import { Rating as ReactRating, RoundedStar } from "@smastrom/react-rating";
+import Link from "next/link";
+import { buttonVariants } from "../ui/button";
+import { CalendarCheck } from "lucide-react";
 
 export default function HotelCard({ hotel }: { hotel: Hotel }) {
   const myStyles = {
@@ -41,6 +44,24 @@ export default function HotelCard({ hotel }: { hotel: Hotel }) {
           <div className="text-sm text-muted-foreground">per night</div>
         </div>
         <p className="text-muted-foreground text-sm">{hotel.description}</p>
+        {hotel.web_url && (
+          <CardFooter className="p-0">
+            <Link
+              href={hotel.web_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                buttonVariants({
+                  variant: "secondary",
+                }),
+                "w-full font-medium flex items-center gap-x-2"
+              )}
+            >
+              <CalendarCheck className="size-5" />
+              <span>Book now</span>
+            </Link>
+          </CardFooter>
+        )}
       </CardContent>
     </Card>
   );

@@ -96,6 +96,28 @@ export async function getPlacePhoto(
   }
 }
 
+export async function getLocationDetails(location_id: string) {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/location/${location_id}/details`,
+      {
+        params: {
+          key: TRIPADVISOR_API_KEY,
+        },
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
+    const web_url = response.data.web_url;
+
+    return web_url || null;
+  } catch (error) {
+    console.error("Failed to fetch location details: ", error);
+    return null;
+  }
+}
+
 export async function getPhotoTravelAdvisor(query: string, category: string) {
   const place = await searchPlace(query, category);
   if (place) {
@@ -103,6 +125,15 @@ export async function getPhotoTravelAdvisor(query: string, category: string) {
     if (photo) {
       return photo.images.original?.url;
     }
+  }
+  return null;
+}
+
+export async function getPlaceDetails(query: string, category: string) {
+  const place = await searchPlace(query, category);
+  if (place) {
+    const details = await getLocationDetails(place.location_id);
+    return details;
   }
   return null;
 }

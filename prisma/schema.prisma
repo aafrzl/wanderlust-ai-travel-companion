@@ -87,6 +87,7 @@ model Hotel {
   description  String
   travelPlanId String
   photoUrl     String?
+  web_url      String?
   travelPlan   TravelPlan @relation(fields: [travelPlanId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())

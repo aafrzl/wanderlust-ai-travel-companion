@@ -2,7 +2,10 @@
 
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
-import { getPhotoTravelAdvisor } from "@/lib/traveladvisor/travel-advisor-services";
+import {
+  getPhotoTravelAdvisor,
+  getPlaceDetails,
+} from "@/lib/traveladvisor/travel-advisor-services";
 import { TravelPlanSchema, TravelPlanType } from "@/schema";
 import {
   GoogleGenerativeAI,
@@ -127,7 +130,8 @@ export async function generatePlan(data: TravelPlanType) {
     const hotelsWithPhotos = await Promise.all(
       travelPlan.hotels.map(async (hotel) => {
         const photoUrl = await getPhotoTravelAdvisor(hotel.name, "hotels");
-        return { ...hotel, photoUrl };
+        const web_url = await getPlaceDetails(hotel.name, "hotels");
+        return { ...hotel, photoUrl, web_url };
       })
     );
 
@@ -184,6 +188,7 @@ export async function generatePlan(data: TravelPlanType) {
               rating: hotel.rating,
               description: hotel.description,
               photoUrl: hotel.photoUrl,
+              web_url: hotel.web_url,
             })
           ),
         },

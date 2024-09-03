@@ -12,11 +12,11 @@ import { notFound, redirect } from "next/navigation";
 
 import HotelCard from "@/components/cards/hotel-card";
 import { TimelineLayout } from "@/components/layouts/timeline-layout";
-import { getPhotoTravelAdvisor } from "@/lib/traveladvisor/travel-advisor-services";
 import "@smastrom/react-rating/style.css";
 import { HeartHandshakeIcon, Phone, Wifi } from "lucide-react";
 import HeadingIcon from "../../_components/heading-icon";
 import HeadingTitle from "../../_components/heading-title";
+import { getPlaceDetails } from "@/lib/traveladvisor/travel-advisor-services";
 
 interface Props {
   params: {
